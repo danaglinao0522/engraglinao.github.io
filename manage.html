@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Data Manager</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #272829;
+      background: white;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    a {
+      color: #149ddd;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #37b3ed;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    header {
+      background: #040b14;
+      color: white;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .back-to-index {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #149ddd;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .tab-content h2 {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      position: relative;
+      color: #173b6c;
+    }
+
+    .tab-content h2::after {
+      content: "";
+      position: absolute;
+      display: block;
+      width: 50px;
+      height: 3px;
+      background: #149ddd;
+      bottom: 0;
+      left: 0;
+    }
+
+    .tabs {
+      display: grid;
+      grid-auto-flow: column;
+      gap: 0;
+      overflow-x: auto;
+      border-bottom: 1px solid #e0e0e0;
+      background: #f5f8fd;
+      padding: 0 8px;
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      min-width: 130px;
+      padding: 14px 18px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+      border-bottom: 3px solid transparent;
+      transition: all 0.25s ease;
+      color: #a8a9b4;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      background: rgba(20, 157, 221, 0.1);
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      color: #149ddd;
+      border-bottom-color: #149ddd;
+      background: white;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 24px 28px 32px;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="url"]:focus,
+    input[type="number"]:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #149ddd;
+      box-shadow: 0 0 0 3px rgba(20, 157, 221, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: #149ddd;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: #2eafec;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #5a6268;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-danger:hover {
+      background: #c82333;
+    }
+
+    .btn-small {
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+
+    .card {
+      background: #f5f8fd;
+      border: 1px solid #e0e6ed;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .card-content {
+      display: none;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #ddd;
+    }
+
+    .card-content.show {
+      display: block;
+    }
+
+    .list-item {
+      background: #f9fbff;
+      padding: 14px 16px;
+      margin: 10px 0;
+      border-left: 4px solid #667eea;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .list-item-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .list-item-content ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 6px 0 0;
+    }
+
+    .list-item-content ul li {
+      margin-bottom: 4px;
+    }
+
+    .success-message {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .success-message.show {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    @media (max-width: 992px) {
+      .two-column {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .tab-btn {
+        min-width: 110px;
+        padding: 12px 14px;
+      }
+
+      .container {
+        margin: 10px;
+      }
+
+      .tab-content {
+        padding: 18px 16px 24px;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .card-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .list-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    .json-preview {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="index.html" class="back-to-index">← View Portfolio</a>
+      <h1>📊 Portfolio Data Manager</h1>
+      <p>Manage your portfolio data and sync to index.html</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('about')">About Me</button>
+      <button class="tab-btn" onclick="switchTab('social')">Social Links</button>
+      <button class="tab-btn" onclick="switchTab('skills')">Skills</button>
+      <button class="tab-btn" onclick="switchTab('education')">Education</button>
+      <button class="tab-btn" onclick="switchTab('experience')">Experience</button>
+      <button class="tab-btn" onclick="switchTab('export')">Export/Import</button>
+    </div>
+
+    <div class="success-message" id="successMessage"></div>
+
+    <!-- About Me Tab -->
+    <div class="tab-content active" id="about">
+      <h2>About Me Information</h2>
+      <div class="two-column">
+        <div>
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="title" placeholder="e.g., Computer Engineer & Graphics Specialist">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="Enter email">
+          </div>
+        </div>
+        <div>
+          <div class="form-group">
+            <label>Contact</label>
+            <input type="text" id="contact" placeholder="Enter contact number">
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" id="city" placeholder="Enter city">
+          </div>
+        </div>
+      </div>
+      <div class="two-column">
+        <div class="form-group">
+          <label>Website</label>
+          <input type="url" id="website" placeholder="Enter website URL">
+        </div>
+        <div class="form-group">
+          <label>Birth Date</label>
+          <input type="text" id="birthDate" placeholder="e.g., 22 May 1997">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Bio</label>
+        <textarea id="bio" placeholder="Enter your bio"></textarea>
+      </div>
+      <div class="two-column">
+        <div class="form-group">
+          <label>Degree</label>
+          <input type="text" id="degree" placeholder="e.g., Bachelors Degree">
+        </div>
+        <div class="form-group">
+          <label>Freelance Status</label>
+          <input type="text" id="freelance" placeholder="e.g., Available">
+        </div>
+      </div>
+      <div class="button-group">
+        <button class="btn-primary" onclick="saveAbout()">Save About Me</button>
+      </div>
+    </div>
+
+    <!-- Social Links Tab -->
+    <div class="tab-content" id="social">
+      <h2>Social Media Links</h2>
+      <div class="form-group">
+        <label>Facebook</label>
+        <input type="url" id="facebook" placeholder="Enter Facebook URL">
+      </div>
+      <div class="form-group">
+        <label>Instagram</label>
+        <input type="url" id="instagram" placeholder="Enter Instagram URL">
+      </div>
+      <div class="form-group">
+        <label>LinkedIn</label>
+        <input type="url" id="linkedin" placeholder="Enter LinkedIn URL">
+      </div>
+      <div class="button-group">
+        <button class="btn-primary" onclick="saveSocial()">Save Social Links</button>
+      </div>
+    </div>
+
+    <!-- Skills Tab -->
+    <div class="tab-content" id="skills">
+      <h2>Skills Management</h2>
+      <div class="button-group">
+        <button class="btn-primary" onclick="openAddSkillForm()">+ Add Skill</button>
+      </div>
+      
+      <div id="addSkillForm" style="display: none; background: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+        <h3>Add New Skill</h3>
+        <div class="form-group">
+          <label>Skill Name</label>
+          <input type="text" id="newSkillName" placeholder="e.g., Figma">
+        </div>
+        <div class="form-group">
+          <label>Skill Type</label>
+          <select id="newSkillType">
+            <option value="App">App</option>
+            <option value="Ability">Ability</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Icon Class (Boxicons)</label>
+          <input type="text" id="newSkillIcon" placeholder="e.g., bx bxl-figma">
+        </div>
+        <div class="form-group">
+          <label>Icon Color</label>
+          <input type="text" id="newSkillIconColor" placeholder="e.g., #f24e1e">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="newSkillDescription" rows="3" placeholder="Short description for this item"></textarea>
+        </div>
+        <div class="button-group">
+          <button class="btn-primary" onclick="addSkill()">Add Skill</button>
+          <button class="btn-secondary" onclick="closeAddSkillForm()">Cancel</button>
+        </div>
+      </div>
+
+      <div id="editSkillForm" style="display: none; background: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+        <h3>Edit Skill</h3>
+        <div class="form-group">
+          <label>Skill Name</label>
+          <input type="text" id="editSkillName" placeholder="e.g., Figma">
+        </div>
+        <div class="form-group">
+          <label>Skill Type</label>
+          <select id="editSkillType">
+            <option value="App">App</option>
+            <option value="Ability">Ability</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Icon Class (Boxicons)</label>
+          <input type="text" id="editSkillIcon" placeholder="e.g., bx bxl-figma">
+        </div>
+        <div class="form-group">
+          <label>Icon Color</label>
+          <input type="text" id="editSkillIconColor" placeholder="e.g., #f24e1e">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="editSkillDescription" rows="3" placeholder="Short description for this item"></textarea>
+        </div>
+        <div class="button-group">
+          <button class="btn-primary" onclick="updateSkill()">Update Skill</button>
+          <button class="btn-secondary" onclick="closeEditSkillForm()">Cancel</button>
+        </div>
+      </div>
+
+      <div id="skillsList"></div>
+    </div>
+
+    <!-- Education Tab -->
+    <div class="tab-content" id="education">
+      <h2>Education Management</h2>
+      <div class="button-group">
+        <button class="btn-primary" onclick="openAddEducationForm()">+ Add Education</button>
+      </div>
+
+      <div id="addEducationForm" style="display: none; background: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+        <h3>Add New Education</h3>
+        <div class="form-group">
+          <label>Level</label>
+          <input type="text" id="newEducLevel" placeholder="e.g., Tertiary">
+        </div>
+        <div class="form-group">
+          <label>Years</label>
+          <input type="text" id="newEducYears" placeholder="e.g., 2014-2020">
+        </div>
+        <div class="form-group">
+          <label>Degree/School</label>
+          <input type="text" id="newEducDegree" placeholder="e.g., Bachelor of Science in Computer Engineering">
+        </div>
+        <div class="form-group">
+          <label>School/Location</label>
+          <input type="text" id="newEducSchool" placeholder="Enter school/location">
+        </div>
+        <div class="button-group">
+          <button class="btn-primary" onclick="addEducation()">Add Education</button>
+          <button class="btn-secondary" onclick="closeAddEducationForm()">Cancel</button>
+        </div>
+      </div>
+
+      <div id="editEducationForm" style="display: none; background: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+        <h3>Edit Education</h3>
+        <div class="form-group">
+          <label>Level</label>
+          <input type="text" id="editEducLevel" placeholder="e.g., Tertiary">
+        </div>
+        <div class="form-group">
+          <label>Years</label>
+          <input type="text" id="editEducYears" placeholder="e.g., 2014-2020">
+        </div>
+        <div class="form-group">
+          <label>Degree/School</label>
+          <input type="text" id="editEducDegree" placeholder="e.g., Bachelor of Science in Computer Engineering">
+        </div>
+        <div class="form-group">
+          <label>School/Location</label>
+          <input type="text" id="editEducSchool" placeholder="Enter school/location">
+        </div>
+        <div class="button-group">
+          <button class="btn-primary" onclick="updateEducation()">Update Education</button>
+          <button class="btn-secondary" onclick="closeEditEducationForm()">Cancel</button>
+        </div>
+      </div>
+
+      <div id="educationList"></div>
+    </div>
+
+    <!-- Experience Tab -->
+    <div class="tab-content" id="experience">
+      <h2>Experience Management</h2>
+      <div class="button-group">
+        <button class="btn-primary" onclick="openAddExperienceForm()">+ Add Experience</button>
+      </div>
+
+      <div id="addExperienceForm" style="display: none; background: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+        <h3>Add New Experience</h3>
+        <div class="form-group">
+          <label>Position</label>
+          <input type="text" id="newExpPosition" placeholder="e.g., Graphics Specialist">
+        </div>
+        <div class="form-group">
+          <label>Years</label>
+          <input type="text" id="newExpYears" placeholder="e.g., May 21, 2021 - May 14, 2022">
+        </div>
+        <div class="form-group">
+          <label>Company</label>
+          <input type="text" id="newExpCompany" placeholder="e.g., Integreon Managed Solutions">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <div id="newExpDescriptionList" style="margin-bottom: 10px;"></div>
+          <button type="button" class="btn-secondary btn-small" onclick="addExperienceBullet('newExpDescriptionList')">+ Add Bullet</button>
+        </div>
+        <div class="button-group">
+          <button class="btn-primary" onclick="addExperience()">Add Experience</button>
+          <button class="btn-secondary" onclick="closeAddExperienceForm()">Cancel</button>
+        </div>
+      </div>
+
+      <div id="editExperienceForm" style="display: none; background: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+        <h3>Edit Experience</h3>
+        <div class="form-group">
+          <label>Position</label>
+          <input type="text" id="editExpPosition" placeholder="e.g., Graphics Specialist">
+        </div>
+        <div class="form-group">
+          <label>Years</label>
+          <input type="text" id="editExpYears" placeholder="e.g., May 21, 2021 - May 14, 2022">
+        </div>
+        <div class="form-group">
+          <label>Company</label>
+          <input type="text" id="editExpCompany" placeholder="e.g., Integreon Managed Solutions">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <div id="editExpDescriptionList" style="margin-bottom: 10px;"></div>
+          <button type="button" class="btn-secondary btn-small" onclick="addExperienceBullet('editExpDescriptionList')">+ Add Bullet</button>
+        </div>
+        <div class="button-group">
+          <button class="btn-primary" onclick="updateExperience()">Update Experience</button>
+          <button class="btn-secondary" onclick="closeEditExperienceForm()">Cancel</button>
+        </div>
+      </div>
+
+      <div id="experienceList"></div>
+    </div>
+
+    <!-- Export/Import Tab -->
+    <div class="tab-content" id="export">
+      <h2>Data Export & Import</h2>
+      <div class="button-group">
+        <button class="btn-primary" onclick="exportData()">📥 Export JSON</button>
+        <button class="btn-secondary" onclick="syncToFile()">💾 Sync to File</button>
+        <button class="btn-secondary" onclick="clearLocalStorage()">🗑️ Clear Local Data</button>
+      </div>
+      <div class="form-group">
+        <label>Current Data (Read-only)</label>
+        <div class="json-preview" id="jsonPreview"></div>
+      </div>
+      <div class="form-group">
+        <label>Instructions:</label>
+        <div style="background: #f0f8ff; padding: 15px; border-radius: 5px; border-left: 4px solid #667eea;">
+          <strong>How to sync changes to your website:</strong><br>
+          1. Make changes in the tabs above<br>
+          2. Click "💾 Sync to File" to download updated data.json<br>
+          3. Replace your existing data.json file with the downloaded one<br>
+          4. Refresh index.html to see the changes<br><br>
+          <em>Note: Changes are automatically reflected in index.html when you refresh the page, but the file sync ensures permanent storage.</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let data = {};
+
+    // Load data on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadData();
+      displayProfile();
+      displaySocial();
+      displaySkills();
+      displayEducation();
+      displayExperience();
+      displayJsonPreview();
+    });
+
+    function loadData() {
+      // First try to load from localStorage (for unsaved changes)
+      const localData = localStorage.getItem('portfolioData');
+      if (localData) {
+        data = JSON.parse(localData);
+        console.log('Loaded data from localStorage');
+      } else {
+        // Fall back to data.json file
+        fetch('data.json')
+          .then(response => response.json())
+          .then(json => {
+            data = json;
+            console.log('Loaded data from data.json');
+            populateFields();
+          })
+          .catch(error => console.error('Error loading data.json:', error));
+      }
+      
+      // Populate fields regardless of data source
+      populateFields();
+    }
+
+    function populateFields() {
+      // About Me
+      document.getElementById('title').value = data.profile?.title || '';
+      document.getElementById('email').value = data.profile?.email || '';
+      document.getElementById('contact').value = data.profile?.contact || '';
+      document.getElementById('city').value = data.profile?.city || '';
+      document.getElementById('website').value = data.profile?.website || '';
+      document.getElementById('birthDate').value = data.profile?.birthDate || '';
+      document.getElementById('bio').value = data.profile?.bio || '';
+      document.getElementById('degree').value = data.profile?.degree || '';
+      document.getElementById('freelance').value = data.profile?.freelance || '';
+
+      // Social
+      document.getElementById('facebook').value = data.social?.facebook || '';
+      document.getElementById('instagram').value = data.social?.instagram || '';
+      document.getElementById('linkedin').value = data.social?.linkedin || '';
+    }
+
+    function switchTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Show selected tab
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    function saveAbout() {
+      data.profile = {
+        name: data.profile?.name || 'Danny Aglinao', // Keep existing name
+        fullName: data.profile?.fullName || 'Dan Aglinao', // Keep existing full name
+        title: document.getElementById('title').value,
+        bio: document.getElementById('bio').value,
+        profileImage: data.profile?.profileImage || 'assets/img/profile-img.jpg',
+        birthDate: document.getElementById('birthDate').value,
+        website: document.getElementById('website').value,
+        contact: document.getElementById('contact').value,
+        email: document.getElementById('email').value,
+        city: document.getElementById('city').value,
+        degree: document.getElementById('degree').value,
+        freelance: document.getElementById('freelance').value
+      };
+      saveDataToFile();
+      showSuccess('About Me saved successfully!');
+    }
+
+    function saveSocial() {
+      data.social = {
+        facebook: document.getElementById('facebook').value,
+        instagram: document.getElementById('instagram').value,
+        linkedin: document.getElementById('linkedin').value
+      };
+      saveDataToFile();
+      showSuccess('Social links saved successfully!');
+    }
+
+    function displayProfile() {
+      // Profile display logic here
+    }
+
+    function displaySocial() {
+      // Social display logic here
+    }
+
+    function openAddSkillForm() {
+      document.getElementById('addSkillForm').style.display = 'block';
+    }
+
+    function closeAddSkillForm() {
+      document.getElementById('addSkillForm').style.display = 'none';
+      document.getElementById('newSkillName').value = '';
+      document.getElementById('newSkillType').value = 'App';
+      document.getElementById('newSkillIcon').value = '';
+      document.getElementById('newSkillIconColor').value = '';
+      document.getElementById('newSkillDescription').value = '';
+    }
+
+    function addSkill() {
+      const name = document.getElementById('newSkillName').value.trim();
+      const type = document.getElementById('newSkillType').value;
+      const icon = document.getElementById('newSkillIcon').value.trim();
+      const iconColor = document.getElementById('newSkillIconColor').value.trim();
+      const description = document.getElementById('newSkillDescription').value.trim();
+
+      if (!name || !type) {
+        alert('Please fill in all fields');
+        return;
+      }
+      if (type === 'App' && !icon) {
+        alert('Please add an icon class for app skills');
+        return;
+      }
+      if (type === 'Ability' && !description) {
+        alert('Please add a description for ability skills');
+        return;
+      }
+
+      if (!data.skills) data.skills = [];
+      data.skills.push({ name, type, icon, iconColor, description });
+      saveDataToFile();
+      displaySkills();
+      closeAddSkillForm();
+      showSuccess('Skill added successfully!');
+    }
+
+    function editSkill(index) {
+      const skill = data.skills[index];
+      document.getElementById('editSkillName').value = skill.name;
+      document.getElementById('editSkillType').value = skill.type || 'App';
+      document.getElementById('editSkillIcon').value = skill.icon || '';
+      document.getElementById('editSkillIconColor').value = skill.iconColor || '';
+      document.getElementById('editSkillDescription').value = skill.description || '';
+      document.getElementById('editSkillForm').style.display = 'block';
+      document.getElementById('editSkillForm').dataset.editIndex = index;
+      document.getElementById('addSkillForm').style.display = 'none';
+    }
+
+    function updateSkill() {
+      const index = parseInt(document.getElementById('editSkillForm').dataset.editIndex);
+      const name = document.getElementById('editSkillName').value.trim();
+      const type = document.getElementById('editSkillType').value;
+      const icon = document.getElementById('editSkillIcon').value.trim();
+      const iconColor = document.getElementById('editSkillIconColor').value.trim();
+      const description = document.getElementById('editSkillDescription').value.trim();
+
+      if (!name || !type) {
+        alert('Please fill in all fields');
+        return;
+      }
+      if (type === 'App' && !icon) {
+        alert('Please add an icon class for app skills');
+        return;
+      }
+      if (type === 'Ability' && !description) {
+        alert('Please add a description for ability skills');
+        return;
+      }
+
+      data.skills[index] = { name, type, icon, iconColor, description };
+      saveDataToFile();
+      displaySkills();
+      closeEditSkillForm();
+      showSuccess('Skill updated successfully!');
+    }
+
+    function closeEditSkillForm() {
+      document.getElementById('editSkillForm').style.display = 'none';
+      document.getElementById('editSkillName').value = '';
+      document.getElementById('editSkillType').value = 'App';
+      document.getElementById('editSkillIcon').value = '';
+      document.getElementById('editSkillIconColor').value = '';
+      document.getElementById('editSkillDescription').value = '';
+      delete document.getElementById('editSkillForm').dataset.editIndex;
+    }
+
+    function displaySkills() {
+      const list = document.getElementById('skillsList');
+      list.innerHTML = '';
+      
+      if (!data.skills) return;
+
+      data.skills.forEach((skill, index) => {
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.innerHTML = `
+          <div class="list-item-content">
+            <span class="skill-type">${skill.type}</span>
+            <i class="bx ${skill.icon || 'bxs-star'}"></i>
+            <strong>${skill.name}</strong>
+            ${skill.description ? `<p>${skill.description}</p>` : ''}
+          </div>
+          <div class="card-actions">
+            <button class="btn-secondary btn-small" onclick="editSkill(${index})">Edit</button>
+            <button class="btn-danger btn-small" onclick="deleteSkill(${index})">Delete</button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function openAddEducationForm() {
+      document.getElementById('addEducationForm').style.display = 'block';
+    }
+
+    function closeAddEducationForm() {
+      document.getElementById('addEducationForm').style.display = 'none';
+      document.getElementById('newEducLevel').value = '';
+      document.getElementById('newEducYears').value = '';
+      document.getElementById('newEducDegree').value = '';
+      document.getElementById('newEducSchool').value = '';
+    }
+
+    function addEducation() {
+      const level = document.getElementById('newEducLevel').value;
+      const years = document.getElementById('newEducYears').value;
+      const degree = document.getElementById('newEducDegree').value;
+      const school = document.getElementById('newEducSchool').value;
+
+      if (!level || !years || !degree || !school) {
+        alert('Please fill in all fields');
+        return;
+      }
+
+      if (!data.education) data.education = [];
+      data.education.push({ level, years, degree, school });
+      saveDataToFile();
+      displayEducation();
+      closeAddEducationForm();
+      showSuccess('Education added successfully!');
+    }
+
+    function editEducation(index) {
+      const edu = data.education[index];
+      document.getElementById('editEducLevel').value = edu.level;
+      document.getElementById('editEducYears').value = edu.years;
+      document.getElementById('editEducDegree').value = edu.degree;
+      document.getElementById('editEducSchool').value = edu.school;
+      document.getElementById('editEducationForm').style.display = 'block';
+      document.getElementById('editEducationForm').dataset.editIndex = index;
+      document.getElementById('addEducationForm').style.display = 'none';
+    }
+
+    function updateEducation() {
+      const index = parseInt(document.getElementById('editEducationForm').dataset.editIndex);
+      const level = document.getElementById('editEducLevel').value;
+      const years = document.getElementById('editEducYears').value;
+      const degree = document.getElementById('editEducDegree').value;
+      const school = document.getElementById('editEducSchool').value;
+
+      if (!level || !years || !degree || !school) {
+        alert('Please fill in all fields');
+        return;
+      }
+
+      data.education[index] = { level, years, degree, school };
+      saveDataToFile();
+      displayEducation();
+      closeEditEducationForm();
+      showSuccess('Education updated successfully!');
+    }
+
+    function closeEditEducationForm() {
+      document.getElementById('editEducationForm').style.display = 'none';
+      document.getElementById('editEducLevel').value = '';
+      document.getElementById('editEducYears').value = '';
+      document.getElementById('editEducDegree').value = '';
+      document.getElementById('editEducSchool').value = '';
+      delete document.getElementById('editEducationForm').dataset.editIndex;
+    }
+
+    function displayEducation() {
+      const list = document.getElementById('educationList');
+      list.innerHTML = '';
+      
+      if (!data.education) return;
+
+      data.education.forEach((edu, index) => {
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.innerHTML = `
+          <div class="list-item-content">
+            <strong>${edu.degree}</strong> (${edu.years})<br>
+            <small>${edu.level} | ${edu.school}</small>
+          </div>
+          <div class="card-actions">
+            <button class="btn-secondary btn-small" onclick="editEducation(${index})">Edit</button>
+            <button class="btn-danger btn-small" onclick="deleteEducation(${index})">Delete</button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function openAddExperienceForm() {
+      document.getElementById('addExperienceForm').style.display = 'block';
+      initializeExperienceBullets('newExpDescriptionList');
+    }
+
+    function closeAddExperienceForm() {
+      document.getElementById('addExperienceForm').style.display = 'none';
+      document.getElementById('newExpPosition').value = '';
+      document.getElementById('newExpYears').value = '';
+      document.getElementById('newExpCompany').value = '';
+      clearExperienceBullets('newExpDescriptionList');
+    }
+
+    function addExperienceBullet(listId, value = '') {
+      const list = document.getElementById(listId);
+      const bulletItem = document.createElement('div');
+      bulletItem.style.display = 'flex';
+      bulletItem.style.alignItems = 'center';
+      bulletItem.style.marginBottom = '8px';
+      bulletItem.innerHTML = `
+        <input type="text" class="experience-bullet" value="${value}" placeholder="Bullet text" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-right: 10px;">
+        <button type="button" class="btn-danger btn-small" onclick="removeExperienceBullet(this)">Remove</button>
+      `;
+      list.appendChild(bulletItem);
+    }
+
+    function removeExperienceBullet(button) {
+      const item = button.closest('div');
+      if (item) item.remove();
+    }
+
+    function getExperienceBullets(listId) {
+      const inputs = document.querySelectorAll(`#${listId} .experience-bullet`);
+      return Array.from(inputs).map(input => input.value.trim()).filter(Boolean);
+    }
+
+    function clearExperienceBullets(listId) {
+      const list = document.getElementById(listId);
+      if (list) list.innerHTML = '';
+    }
+
+    function initializeExperienceBullets(listId, values = ['']) {
+      const list = document.getElementById(listId);
+      if (!list) return;
+      list.innerHTML = '';
+      const bullets = Array.isArray(values) ? values : [values];
+      bullets.forEach(value => addExperienceBullet(listId, value));
+    }
+
+    function addExperience() {
+      const position = document.getElementById('newExpPosition').value;
+      const years = document.getElementById('newExpYears').value;
+      const company = document.getElementById('newExpCompany').value;
+      const description = getExperienceBullets('newExpDescriptionList');
+
+      if (!position || !years || !company || description.length === 0) {
+        alert('Please fill in all fields and add at least one bullet.');
+        return;
+      }
+
+      if (!data.experience) data.experience = [];
+      data.experience.push({ position, years, company, description });
+      saveDataToFile();
+      displayExperience();
+      closeAddExperienceForm();
+      showSuccess('Experience added successfully!');
+    }
+
+    function editExperience(index) {
+      const exp = data.experience[index];
+      document.getElementById('editExpPosition').value = exp.position;
+      document.getElementById('editExpYears').value = exp.years;
+      document.getElementById('editExpCompany').value = exp.company;
+      const bullets = Array.isArray(exp.description) ? exp.description : String(exp.description).split('\n').map(line => line.trim()).filter(Boolean);
+      initializeExperienceBullets('editExpDescriptionList', bullets.length ? bullets : ['']);
+      document.getElementById('editExperienceForm').style.display = 'block';
+      document.getElementById('editExperienceForm').dataset.editIndex = index;
+      document.getElementById('addExperienceForm').style.display = 'none';
+    }
+
+    function updateExperience() {
+      const index = parseInt(document.getElementById('editExperienceForm').dataset.editIndex);
+      const position = document.getElementById('editExpPosition').value;
+      const years = document.getElementById('editExpYears').value;
+      const company = document.getElementById('editExpCompany').value;
+      const description = getExperienceBullets('editExpDescriptionList');
+
+      if (!position || !years || !company || description.length === 0) {
+        alert('Please fill in all fields and add at least one bullet.');
+        return;
+      }
+
+      data.experience[index] = { position, years, company, description };
+      saveDataToFile();
+      displayExperience();
+      closeEditExperienceForm();
+      showSuccess('Experience updated successfully!');
+    }
+
+    function closeEditExperienceForm() {
+      document.getElementById('editExperienceForm').style.display = 'none';
+      document.getElementById('editExpPosition').value = '';
+      document.getElementById('editExpYears').value = '';
+      document.getElementById('editExpCompany').value = '';
+      clearExperienceBullets('editExpDescriptionList');
+      delete document.getElementById('editExperienceForm').dataset.editIndex;
+    }
+
+    function displayExperience() {
+      const list = document.getElementById('experienceList');
+      list.innerHTML = '';
+      
+      if (!data.experience) return;
+
+      data.experience.forEach((exp, index) => {
+        const descriptionHtml = Array.isArray(exp.description)
+          ? `<ul>${exp.description.map(bullet => `<li>${bullet}</li>`).join('')}</ul>`
+          : `<small>${exp.description}</small>`;
+
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.innerHTML = `
+          <div class="list-item-content">
+            <strong>${exp.position}</strong> at ${exp.company}<br>
+            <small>${exp.years}</small><br>
+            ${descriptionHtml}
+          </div>
+          <div class="card-actions">
+            <button class="btn-secondary btn-small" onclick="editExperience(${index})">Edit</button>
+            <button class="btn-danger btn-small" onclick="deleteExperience(${index})">Delete</button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function displayJsonPreview() {
+      document.getElementById('jsonPreview').textContent = JSON.stringify(data, null, 2);
+    }
+
+    function saveDataToFile() {
+      // Save to localStorage for immediate use
+      localStorage.setItem('portfolioData', JSON.stringify(data));
+      displayJsonPreview();
+      
+      // Also update the global data variable for immediate sync
+      window.portfolioData = data;
+    }
+
+    function exportData() {
+      const dataStr = JSON.stringify(data, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'data.json';
+      link.click();
+      showSuccess('Data exported successfully!');
+    }
+
+    function syncToFile() {
+      const dataStr = JSON.stringify(data, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'data.json';
+      link.click();
+      URL.revokeObjectURL(url);
+      showSuccess('data.json file downloaded! Replace your existing data.json file with this one.');
+    }
+
+    function clearLocalStorage() {
+      if (confirm('Are you sure you want to clear all local changes? This will reload the original data.json file.')) {
+        localStorage.removeItem('portfolioData');
+        location.reload();
+      }
+    }
+
+    function syncToIndex() {
+      alert('Changes are automatically synced to index.html when you refresh the page!\n\nTo make changes permanent:\n1. Click "💾 Sync to File" \n2. Download the new data.json\n3. Replace your existing data.json file\n4. Refresh index.html');
+      showSuccess('Sync information displayed!');
+    }
+
+    function showSuccess(message) {
+      const msgEl = document.getElementById('successMessage');
+      msgEl.textContent = message;
+      msgEl.classList.add('show');
+      setTimeout(() => {
+        msgEl.classList.remove('show');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
